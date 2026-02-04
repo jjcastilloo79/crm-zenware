@@ -34,7 +34,7 @@ export class AppMenu {
         this.model = [
             
             {
-                label: 'OPORTUNIDAD',
+                label: 'OPORTUNIDAD X',
                 items: [
                     { label: 'Dashboard', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/dashboard/dashboard'] },
                     { label: 'Oportunidad', icon: 'pi pi-fw pi-list', routerLink: ['/oportunidad/oportunidad'] },
