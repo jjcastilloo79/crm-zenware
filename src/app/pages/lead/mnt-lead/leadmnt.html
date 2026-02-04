@@ -1,0 +1,44 @@
+<div class="flex gap-2">
+        <button pButton icon="pi pi-save" label="Grabar" class="p-button-primary" size="small"></button>       
+    </div>
+
+<p-tabs lazy value="0">
+    <p-tablist>
+        <p-tab value="0">Datos del Lead</p-tab>
+        <p-tab value="1">Problema</p-tab>
+        <p-tab value="2">Persona</p-tab>
+        <p-tab value="3">Proyecto</p-tab>
+        <p-tab value="4">Presupuesto</p-tab>
+        <p-tab value="5">Prioridad</p-tab>
+        <p-tab value="6">Proceso</p-tab>
+        <p-tab value="7">Competencia</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+        <p-tabpanel value="0">
+            <app-c-lead></app-c-lead>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+           <app-c-problema></app-c-problema>
+        </p-tabpanel>
+        <p-tabpanel value="2">
+            <app-c-persona></app-c-persona>       
+        </p-tabpanel>
+        <p-tabpanel value="3">
+            <app-c-proyecto></app-c-proyecto>           
+        </p-tabpanel>
+        <p-tabpanel value="4">
+            <app-c-presupuesto></app-c-presupuesto>        
+        </p-tabpanel>
+        <p-tabpanel value="5">
+            <app-c-prioridad></app-c-prioridad>        
+        </p-tabpanel>
+        <p-tabpanel value="6">
+            <app-c-proceso></app-c-proceso>         
+        </p-tabpanel>
+        <p-tabpanel value="7">
+            <app-c-competencia></app-c-competencia>       
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>
+
+@if(blockedDocument){<app-c-progress-spinner [IS_mensaje]="mensajeSpinner"></app-c-progress-spinner>}

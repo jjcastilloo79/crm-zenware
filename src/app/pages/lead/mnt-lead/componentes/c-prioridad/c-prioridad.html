@@ -1,0 +1,28 @@
+<div class="card flex flex-col gap-3 md:w-1/2">
+    <!-- <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col basis-1 gap-1">
+            <label>Prioridad Comercial</label>
+            <p-select [options]="lstSector" [(ngModel)]="idsector" id="idcliente" placeholder="Seleccionar..." optionLabel="nomcomercial" [ngModelOptions]="{standalone: true}" optionValue="idcliente" size="small"></p-select>
+        </div>
+    </div> -->
+    <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Prioridad Comercial</label>
+            <p-select [options]="lstSector" [(ngModel)]="idsector" id="idcliente" placeholder="Seleccionar prioridad..." optionLabel="nomcomercial" [ngModelOptions]="{standalone: true}" optionValue="idcliente" size="small"></p-select>
+        </div>
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Fecha Inicio</label>
+            <p-datepicker [(ngModel)]="annio" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small"></p-datepicker>
+        </div>
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Fecha Cierre</label>
+            <p-datepicker [(ngModel)]="annio" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small"></p-datepicker>
+        </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Riesgo por Atraso</label>
+            <textarea rows="3" cols="30" pTextarea size="small"></textarea>
+        </div>
+    </div>
+</div>

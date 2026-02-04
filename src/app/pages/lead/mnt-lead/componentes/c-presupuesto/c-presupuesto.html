@@ -1,0 +1,40 @@
+<div class="card flex flex-col gap-3 md:w-1/2">
+    <div class="flex flex-wrap">
+        <div class="flex flex-col grow gap-2">
+            <label>¿Existe Presupuesto?</label>
+            <div class="flex flex-wrap gap-4">
+                <div class="flex items-center">
+                    <p-radiobutton name="pizza" value="S" [(ngModel)]="ingredient" inputId="ingredient1" />
+                    <label for="ingredient1" class="ml-2">Si</label>
+                </div>
+
+                <div class="flex items-center">
+                    <p-radiobutton name="pizza" value="N" [(ngModel)]="ingredient" inputId="ingredient2" />
+                    <label for="ingredient2" class="ml-2">No</label>
+                </div>
+
+                <div class="flex items-center">
+                    <p-radiobutton name="pizza" value="E" [(ngModel)]="ingredient" inputId="ingredient3" />
+                    <label for="ingredient3" class="ml-2">En Evaluación</label>
+                </div>
+            </div> 
+        </div>
+    </div>
+     <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Presupuesto Estimado</label>
+            <input pInputText type="text" pSize="small" class="w-auto" />        
+        </div>
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Estado</label>
+            <p-select [options]="lstSector" [(ngModel)]="idsector" id="idcliente" placeholder="Seleccionar..." optionLabel="nomcomercial" [ngModelOptions]="{standalone: true}" optionValue="idcliente" size="small"></p-select>
+        </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col grow basis-0 gap-1">
+            <label>Objetivo</label>
+            <textarea rows="3" cols="30" pTextarea size="small"></textarea>
+        </div>
+    </div>
+   
+</div>

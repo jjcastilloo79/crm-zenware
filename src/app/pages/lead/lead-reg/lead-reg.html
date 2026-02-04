@@ -1,0 +1,801 @@
+<div class="flex gap-2">
+    <!-- <p-button icon="pi pi-save" label="Grabar" variant="text" severity="info" />
+    <p-button icon="pi pi-check" label="Calificar" variant="text" severity="warn" /> -->
+    <button pButton type="submit" [loading]="isLoading" icon="pi pi-save" label="Grabar" ></button>
+    @if(frmDatos.id !== '1' && frmDatos.idlista !== 1 && frmDatos.codigoproyecto === ''){
+    <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-cog"
+        tooltipPosition="bottom"
+        pTooltip="Generar Código Proyecto"
+        class="p-button-outlined p-button-secondary surface-border text-900"
+        (click)="crearProyecto(frmDatos)"
+        label="Generar Proyecto"
+    ></button>
+    } @if (frmDatos.id !== '1' && frmDatos.idlista !== 1 ) {
+    <button pButton pRiple icon="pi pi-chart-line" pTooltip="Ir a Business Case" tooltipPosition="bottom" 
+    class="p-button-outlined p-button-secondary surface-border text-900 w-3rem h-3rem" (click)="businessCase(frmDatos)" ></button>
+    } @if (frmDatos.id !== '1' && frmDatos.idlista !== 1) {
+
+    <button pButton pTooltip="Ir a Quote" type="button" icon="pi pi-money-bill" tooltipPosition="bottom" 
+    class="p-button-outlined p-button-secondary surface-border text-900 w-3rem h-3rem" (click)="Quote(frmDatos)" ></button>
+    } @if (frmDatos.id !== '0') {
+    <button pButton pTooltip="Adjuntar Archivos" tooltipPosition="bottom" type="button" icon="pi pi-paperclip" class="p-button-outlined p-button-secondary surface-border text-900 w-3rem h-3rem" (click)="anexosK(frmDatos, 'K')"></button>
+    }
+    
+</div>
+
+<p-divider align="left" type="solid"> </p-divider>
+
+<p-tabs lazy value="0">
+    <p-tablist>
+        <p-tab value="0">Datos del Lead</p-tab>
+        <p-tab value="1">Calificación</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+        <p-tabpanel value="0">
+            <form class="p-fluid grid">
+                <div class="flex -mt-10">
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <!-- <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col gap-1">
+                                <label>Fecha</label>
+                                <p-datepicker [(ngModel)]="frmDatos.startDate" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small" [ngModelOptions]="{standalone: true}"></p-datepicker>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Origen</label>
+                                <p-select [options]="lstOrigenOportunidad" [(ngModel)]="frmDatos.idorigenopor" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1"></div>
+                        </div> -->
+                        <div class="flex flex-wrap">
+                            <div class="flex flex-col grow gap-1">
+                                <label>Nombre de Oportunidad</label>
+                                <input pInputText type="text" [(ngModel)]="frmDatos.title" pSize="small" class="w-auto" [ngModelOptions]="{standalone: true}" />
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Empresa</label>
+                                <p-select
+                                    [options]="lstClientes"
+                                    [(ngModel)]="frmDatos.idcliente"
+                                    placeholder="Seleccionar..."
+                                    optionLabel="razonsocial"
+                                    optionValue="idcliente"
+                                    size="small"
+                                    [filter]="true"
+                                    [panelStyle]="{ width: '260px' }"
+                                    [ngModelOptions]="{standalone: true}"
+                                ></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Solución (Producto/Servicio)</label>
+                                <p-select [options]="lstTipoProducto" [(ngModel)]="frmDatos.idtipoprod" placeholder="Seleccionar..." optionLabel="nomcomercial" optionValue="idtipoprod" size="small" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Industria/Sector</label>
+                                <p-select [options]="lstSectorInd" [(ngModel)]="frmDatos.idsectorind" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Origen</label>
+                                <p-select [options]="lstOrigenOportunidad" [(ngModel)]="frmDatos.idorigenopor" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Descripción</label>
+                                <textarea rows="3" cols="30" [(ngModel)]="frmDatos.description" pTextarea pSize="small" [ngModelOptions]="{standalone: true}"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-900 font-semibold">Moneda</label>
+                                <p-select [options]="lstMoneda" [(ngModel)]="frmDatos.idmoneda" optionLabel="simbmoneda" optionValue="idmoneda" (onChange)="cambioDolares($event)" [readonly]="isMoneda" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-900 font-semibold">Monto sin IGV</label>
+                                <p-inputNumber [(ngModel)]="frmDatos.monto" locale="es-PE" mode="decimal" [minFractionDigits]="2" name="monto" (onInput)="calcularDolaresM($event)" [min]="0" [ngModelOptions]="{standalone: true}"></p-inputNumber>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-900 font-semibold">TC </label>
+                                <p-inputNumber
+                                    [(ngModel)]="frmDatos.tipocambio"
+                                    locale="es-PE"
+                                    mode="decimal"
+                                    [minFractionDigits]="4"
+                                    name="tipocambio"
+                                    (onInput)="calcularDolaresT($event)"
+                                    [min]="0"
+                                    [max]="9"
+                                    [ngModelOptions]="{standalone: true}"
+                                ></p-inputNumber>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-900 font-semibold">{{ this.etiquetaMonto }} </label>
+                                <p-inputNumber [readonly]="true" [(ngModel)]="frmDatos.montodolar" locale="es-PE" mode="decimal" [minFractionDigits]="2" name="montodolar" [ngModelOptions]="{standalone: true}"></p-inputNumber>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="block text-900 font-semibold">Vendedor</label>
+                                <input [disabled]="true" pInputText type="text" class="w-full" [(ngModel)]="frmDatos.nomcreador" [ngModelOptions]="{standalone: true}" />
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="block text-900 font-semibold">Pre-Venta</label>
+                                <p-select [options]="Usuarios" [(ngModel)]="frmDatos.idpreventa" placeholder="Seleccionar Pre-Venta" optionLabel="name" optionValue="idusuario" [ngModelOptions]="{standalone: true}"></p-select>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <!-- <div class="flex flex-column field w-full">
+                                <label class="text-900 font-semibold">Fecha de Registro</label>
+                                <div class="w-full surface-border border-1 border-round justify-content-between flex p-2 align-items-center" >
+                                    <div>
+                                        <span>{{frmDatos.startDate}}</span>
+                                    </div>
+                                    <div>
+                                        <i class="pi pi-calendar"></i>
+                                    </div>
+                                </div>
+                            </div> 
+                            @if(frmDatos.id !== '0'){
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-900 font-semibold">Fec. de Cierre Oport.</label>
+                                <div class="w-full surface-border border-1 border-round justify-content-between flex p-2 align-items-center" >
+                                   
+                                    <div>
+                                        <span class="text-900">{{frmDatos.dueDate}}</span>
+                                    </div>
+                                    <div>
+                                        <i class="text-900 pi pi-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            }  -->
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Fecha Registro</label>
+                                <p-datepicker [(ngModel)]="frmDatos.startDate" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small" [ngModelOptions]="{standalone: true}"></p-datepicker>
+                            </div>
+                            <!-- @if(frmDatos.id !== '0'){ -->
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label for="due" class="block text-900 font-semibold">Fec. de Cierre Oport.</label>
+                                <p-datepicker
+                                    name="endDate"
+                                    dateFormat="dd/mm/yy"
+                                    [showTime]="false"
+                                    [showIcon]="true"
+                                    [required]="true"
+                                    inputId="due"
+                                    inputStyleClass="w-full cursor-pointer"
+                                    [(ngModel)]="frmDatos.dueDate"
+                                    [readonlyInput]="true"
+                                    size="small"
+                                    [ngModelOptions]="{standalone: true}"
+                                ></p-datepicker>
+                            </div>
+                            <!-- }  -->
+                            @if(!verfecAmplia){
+
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label for="due" class="text-900 font-semibold">Fec. Ampliación Oport.</label>
+                                <p-datepicker
+                                    name="fecampliacion"
+                                    dateFormat="dd/mm/yy"
+                                    [showTime]="false"
+                                    [showIcon]="true"
+                                    inputId="fecampliacion"
+                                    inputStyleClass="w-full cursor-pointer text-900 font-bold"
+                                    [minDate]="minimaFechaAmpli"
+                                    [(ngModel)]="frmDatos.fecampliacion"
+                                    [readonlyInput]="true"
+                                    (onSelect)="changeFecha($event)"
+                                    size="small"
+                                    [ngModelOptions]="{standalone: true}"
+                                ></p-datepicker>
+                            </div>
+                            } @if(verfecAmplia){
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label class="text-500 font-semibold">Fec. Ampliación Oport.</label>
+                                <div class="w-full surface-border border-1 border-round justify-content-between flex p-2 align-items-center" style="height: 3.5rem">
+                                    <div>
+                                        <span class="text-500 font-semibold">{{frmDatos.fecampliacion}}</span>
+                                    </div>
+                                    <div>
+                                        <i class="text-500 font-semibold pi pi-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="text-500 font-semibold">Justificación de Ampliación</label>
+                            <textarea
+                                [disabled]="verjustificacion"
+                                id="justificacion"
+                                name="justificacion"
+                                type="text"
+                                pInputTextarea
+                                [rows]="3"
+                                [(ngModel)]="frmDatos.justificacion"
+                                style="resize: none text-500"
+                                class="w-full"
+                                [ngModelOptions]="{standalone: true}"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <p-fieldset legend="Registro de Oportunidad en Proveedor" [toggleable]="true" [collapsed]="true" class="m-1">
+                            <div class="-mt-2 flex flex-wrap">
+                                <button pButton pRipple pTooltip="Nuevo Registro" tooltipPosition="left" type="button" (click)="crearRegistro()" icon="pi pi-plus" class="p-button-primary"></button>
+                            </div>
+                            <div
+                                class="w-full align-items-start gap-3 h-5rem surface-border border-2 border-round p-4 mt-2"
+                                *ngFor="
+                            let register of frmDatos.regoportunidadesext;
+                            let i = index
+                        "
+                            >
+                                <div class="justify-content-between flex field gap-2">
+                                    <div class="flex flex-column flex-wrap">
+                                        <div class="flex-wrap text-sm">
+                                            <span class="font-semibold text-sm">Código: </span>
+                                            <span class="text-sm">{{ register.numregoportunidad }}</span>
+                                        </div>
+                                        <div class="flex flex-wrap">
+                                            <span class="font-semibold text-sm">Vencimiento: </span>
+                                            <span class="text-sm">{{ register.fechavence }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-column flex-wrap">
+                                        <div class="flex-wrap text-sm">
+                                            <span class="font-semibold text-sm">Proveedor: </span>
+                                            <span>{{ register.nomproveedor }}</span>
+                                        </div>
+                                        <div class="flex-wrap text-sm">
+                                            <span class="font-semibold text-sm">Marca: </span>
+                                            <span>{{ register.nommarca }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex">
+                                        <button pRipple pButton type="button" icon="pi pi-pencil text-700" (click)="editarRegistro(register, i)" pTooltip="Editar" tooltipPosition="left" class="p-button-rounded p-button-text -mt-2"></button>
+                                        <button pRipple pButton type="button" icon="pi pi-trash text-red-700" (click)="eliminarRegistro(register, i)" pTooltip="Eliminar" tooltipPosition="left" class="p-button-rounded p-button-text -mt-2"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-fieldset>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex justify-content-between mb-3 gap-2">
+                                <span class="text-900 font-semibold">Progreso</span>
+                                <span class="text-900 font-semibold">{{ frmDatos.progress }}%</span>
+                            </div>
+                            <p-progressBar name="progress" [value]="frmDatos.progress" [showValue]="false"></p-progressBar>
+                        </div>
+                        <p-fieldset legend="{{'Tareas ' + '(' + frmDatos.taskList.tasks.length + ')'}}" [toggleable]="true" [collapsed]="true">
+                            <div class="col-12 flex-wrap">
+                                <button pButton pRipple pTooltip="Nueva Tarea" tooltipPosition="left" type="button" (click)="crearRegistroTarea()" icon="pi pi-plus" class="p-button-success"></button>
+
+                                @for(task of frmDatos.taskList.tasks; track task.idtarea; ){
+                                <div class="w-full flex gap-3 h-auto bg-gray-100 p-4 mt-2 flex-wrap" pDraggable="ouch" (onDragStart)="dragStart(task, $index)" (onDragEnd)="dragEnd()" pDroppable="ouch" (onDrop)="drop($event, $index)">
+                                    <div class="flex field gap-5 justify-content-between w-full">
+                                        <div class="w-full ml-3 flex-wrap">
+                                            <p-inplace [disabled]="task.completed" #inplace3 [closable]="true" closeIcon="pi pi-check" (onActivate)="focus(3)">
+                                                <ng-template pTemplate="display">
+                                                    <span
+                                                        style="white-space: pre-line"
+                                                        pTooltip="Click para Editar"
+                                                        [ngClass]="{
+                                                    'text-600': task.completed,
+                                                    'text-900': !task.completed
+                                                }"
+                                                        class="cursor-pointer w-full"
+                                                    >
+                                                        {{ task.text }}
+                                                    </span>
+                                                </ng-template>
+                                                <ng-template pTemplate="content">
+                                                    <input
+                                                        #inputTaskList
+                                                        type="text"
+                                                        [value]="task.text"
+                                                        name="text"
+                                                        row="3"
+                                                        [(ngModel)]="task.text"
+                                                        pInputText
+                                                        class="w-full text-900 text-lg h-full"
+                                                        (keydown.enter)="
+                                                    inplace3.deactivate()
+                                                "
+                                                    />
+                                                </ng-template>
+                                            </p-inplace>
+                                        </div>
+                                        @if(task.idtarea === 0){
+                                        <button pRipple pButton type="button" icon="pi pi-trash text-700" pTooltip="Eliminar Tarea" tooltipPosition="left" class="p-button-rounded p-button-text mr-2 -mt-2" (click)="removeTask($index)"></button>
+                                        } @if(task.idtarea !== 0){
+                                        <div class="flex">
+                                            <button
+                                                pRipple
+                                                pButton
+                                                type="button"
+                                                icon="pi pi-paperclip text-700"
+                                                pTooltip="Agregar Adjunto a Tarea"
+                                                tooltipPosition="left"
+                                                class="p-button-rounded p-button-text mr-2 -mt-2"
+                                                (click)="anexosT(task, 'T')"
+                                            ></button>
+                                        </div>
+                                        }
+                                    </div>
+                                    <div class="flex gap-3 justify-content-between w-full">
+                                        @if(!task.completed){
+                                        <i class="pi pi-users cursor-pointer mt-6" pTooltip="Asignar Tarea" tooltipPosition="left" (click)="AsignarTarea(task)"></i>
+
+                                        }
+
+                                        <p-avatarGroup class="mt-5">
+                                            <p-avatar
+                                                *ngFor="
+                                            let assignee of frmDatos.taskList
+                                                .tasks[$index].asignados
+                                                | slice : 0 : 3
+                                        "
+                                                image="{{ assignee.image }}"
+                                                shape="circle"
+                                            ></p-avatar>
+                                            @if( frmDatos.taskList.tasks[$index] .asignados && frmDatos.taskList.tasks[$index] .asignados.length > 3){
+                                            <p-avatar
+                                                label="+ {{
+                                            frmDatos.taskList.tasks[$index]
+                                                .asignados.length - 1
+                                        }}"
+                                                shape="circle"
+                                                Class="border-1 surface-border mb-1 "
+                                            ></p-avatar>
+
+                                            }
+                                        </p-avatarGroup>
+
+                                        <div class="flex gap-1">
+                                            <div class="flex flex-col">
+                                                <label class="text-900 font-semibold">F. Inicio</label>
+                                                <p-datepicker
+                                                    [disabled]="task.completed"
+                                                    [name]="task.fechaini + $index"
+                                                    dataType="string"
+                                                    dateFormat="dd/mm/yy"
+                                                    [showTime]="false"
+                                                    [required]="true"
+                                                    [inputId]="task.fechaini"
+                                                    inputStyleClass="w-full border-0 cursor-pointer"
+                                                    [(ngModel)]="task.fechaini"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    appendTo="body"
+                                                    [minDate]="minDateValueTarea"
+                                                    [maxDate]="maxDateValueTarea"
+                                                    [showIcon]="true"
+                                                    size="small"
+                                                ></p-datepicker>
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <label class="text-900 font-semibold">F. Final</label>
+                                                <p-datepicker
+                                                    [disabled]="task.completed"
+                                                    [name]="task.fechafin + $index"
+                                                    dataType="string"
+                                                    dateFormat="dd/mm/yy"
+                                                    [showTime]="false"
+                                                    [required]="true"
+                                                    [inputId]="task.fechafin"
+                                                    inputStyleClass="w-full border-0 cursor-pointer"
+                                                    [(ngModel)]="task.fechafin"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    appendTo="body"
+                                                    [minDate]="minDateValueTarea"
+                                                    [maxDate]="maxDateValueTarea"
+                                                    [showIcon]="true"
+                                                    size="small"
+                                                ></p-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </p-fieldset>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <div class="flex">
+                                    <label for="assignees" class="block text-900 font-semibold">Vinculados</label>
+                                    <i class="pi pi-users" style="margin-left: 10px"></i>
+                                </div>
+                                <p-autoComplete
+                                    appendTo="body"
+                                    name="assignees"
+                                    [(ngModel)]="frmDatos.assignees"
+                                    [suggestions]="filteredAssignees"
+                                    (completeMethod)="filterAssignees($event)"
+                                    field="name"
+                                    [multiple]="true"
+                                    [showEmptyMessage]="true"
+                                    emptyMessage="No se han encontrado resultados"
+                                    placeholder="Elegir Vinculados"
+                                    [inputStyle]="{ height: '2.5rem' }"
+                                >
+                                    <ng-template let-assignee pTemplate="selectedItem">
+                                        <div class="flex align-items-center gap-3 border-round">
+                                            <img src="{{ assignee.image }}" [alt]="assignee.name" (click)="op1.toggle($event)" class="h-2rem w-2rem border-2 border-circle surface-border mr-2 cursor-pointer" />
+                                            <span class="text-900">{{ assignee.name }}</span>
+                                            <p-popover #op1>
+                                                <div class="flex">
+                                                    <img src="{{ assignee.image }}" [alt]="assignee.name" class="h-3rem w-3rem border-2 border-circle surface-border mr-2" />
+                                                    <div style="margin-left: 10px">
+                                                        <span class="text-900 font-semibold">{{ assignee.name }}</span>
+                                                        <br />
+                                                        <span>Gerente Financiero</span>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="flex align-items-center text-900">
+                                                    <i class="pi pi-phone font-semibold" style="left: 3.5rem; margin-left: 15px"></i>
+                                                    <span style="margin-left: 10px">993 050 988</span>
+                                                </div>
+                                                <br />
+                                                <div class="flex align-items-center text-900">
+                                                    <i class="pi pi-envelope font-semibold" style="left: 1.5rem; margin-left: 15px"></i>
+                                                    <span style="margin-left: 10px">democorreo&#64;mail.com</span>
+                                                </div>
+                                                <br />
+                                            </p-popover>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-assignee pTemplate="item">
+                                        <div class="flex align-items-center border-round">
+                                            <img src="{{ assignee.image }}" [alt]="assignee.name" class="h-2rem w-2rem border-2 border-circle surface-border mr-2" />
+                                            <span class="text-900">{{ assignee.name }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                        <div class="col-12 flex flex-col field gap-2">
+                            <div class="flex">
+                                <label for="contac" class="block text-900 font-semibold">Contactos Cliente</label>
+                                <i class="pi pi-user-plus cursor-pointer" style="margin-left: 10px" pTooltip="Nuevo Contacto" tooltipPosition="right" (click)="changeHeaderTitle(1, $event)"></i>
+                            </div>
+                            <p-autoComplete
+                                appendTo="body"
+                                name="contacs"
+                                [(ngModel)]="frmDatos.contactos"
+                                [suggestions]="filteredContac"
+                                (completeMethod)="filterContac($event)"
+                                [multiple]="true"
+                                [showEmptyMessage]="true"
+                                emptyMessage="No se han encontrado resultados"
+                                placeholder="Elegir Contactos"
+                                [inputStyle]="{ height: '2.5rem' }"
+                            >
+                                <ng-template let-contac pTemplate="selectedItem">
+                                    <div class="flex align-items-center gap-3 border-round">
+                                        <img src="{{ contac.image }}" [alt]="contac.nombrecontacto" (click)="op2.toggle($event)" class="h-2rem w-2rem border-2 border-circle surface-border mr-2 cursor-pointer" />
+                                        <span class="text-900">{{ contac.nombrecontacto }}</span>
+                                        <p-popover #op2>
+                                            <div>
+                                                <div class="flex">
+                                                    <img src="{{ contac.image }}" [alt]="contac.nombrecontacto" class="h-3rem w-3rem border-2 border-circle surface-border mr-2" />
+                                                    <div>
+                                                        <span class="text-900 font-semibold">{{ contac.nombrecontacto }}</span>
+                                                        <br />
+                                                        <span>{{ contac.cargo }}</span>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="flex align-items-center text-900">
+                                                    <i class="pi pi-phone font-semibold" style="left: 3.5rem; margin-left: 15px"></i>
+                                                    <span style="margin-left: 10px">{{ contac.telefono }}</span>
+                                                </div>
+                                                <br />
+                                                <div class="flex align-items-center text-900">
+                                                    <i class="pi pi-envelope font-semibold" style="left: 1.5rem; margin-left: 15px"></i>
+                                                    <span style="margin-left: 10px">{{ contac.email }}</span>
+                                                </div>
+                                                <br />
+                                                <div class="flex align-items-center text-900">
+                                                    <i class="pi pi-power-off font-semibold" style="left: 1.5rem; margin-left: 15px"></i>
+                                                    <span style="margin-left: 10px">{{ contac.nomtiporol }}</span>
+                                                </div>
+                                                <br /><br />
+                                                <div class="flex justify-content-end">
+                                                    <i
+                                                        class="pi pi-pencil cursor-pointer"
+                                                        pTooltip="Editar Contacto"
+                                                        tooltipPosition="left"
+                                                        (click)="
+                                                    op2.hide();
+                                                    changeHeaderTitle(2, contac)
+                                                "
+                                                    ></i>
+                                                </div>
+                                            </div>
+                                        </p-popover>
+                                    </div>
+                                </ng-template>
+                                <ng-template let-contac pTemplate="item">
+                                    <div class="flex align-items-center border-round">
+                                        <img src="{{ contac.image }}" [alt]="contac.nombrecontacto" class="h-2rem w-2rem border-2 border-circle surface-border mr-2" />
+                                        <span class="text-900">{{ contac.nombrecontacto }}</span>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+            <!-- <form [formGroup]="frmDatos" class="p-fluid grid">
+                <div class="flex -mt-10">
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">1. Lead</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col gap-1">
+                                <label>Fecha</label>
+                                <p-datepicker [(ngModel)]="fecoportunidad" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small"></p-datepicker>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Origen</label>
+                                <p-select [options]="lstOrigenOportunidad" [(ngModel)]="idorigenopor" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1"></div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="flex flex-col grow gap-1">
+                                <label>Nombre de Oportunidad</label>
+                                <input pInputText type="text" [(ngModel)]="title" pSize="small" class="w-auto" />
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Empresa</label>
+                                <p-select [options]="lstClientes" [(ngModel)]="idcliente" placeholder="Seleccionar..." optionLabel="razonsocial" optionValue="idcliente" size="small" [filter]="true"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Solución (Producto/Servicio)</label>
+                                <p-select [options]="lstTipoProducto" [(ngModel)]="idtipoprod" placeholder="Seleccionar..." optionLabel="nomcomercial" optionValue="idcliente" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Industria/Sector</label>
+                                <p-select [options]="lstSectorInd" [(ngModel)]="idsectorind" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">2. Problema</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Descripción</label>
+                                <textarea rows="3" cols="30" [(ngModel)]="desproblema" pTextarea pSize="small"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Impacto</label>
+                                <textarea rows="3" pTextarea [(ngModel)]="desimpacto" pSize="small"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex -mt-20">
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">3. Persona</b>
+                        </p-divider>
+                        <p-table #dt1 [value]="lstContactos" [rowHover]="true" [tableStyle]="{'min-width': '50rem'}" selectionMode="single" size="small">
+                            <ng-template pTemplate="caption">
+                                <label class="font-bold">Contactos</label>
+                                <button pButton icon="pi pi-plus" label="Agregar" class="p-button-outlined ml-3" size="small"></button>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>NOMBRE</th>
+                                    <th>CARGO</th>
+                                    <th>ROL</th>
+                                    <th>EMAIL</th>
+                                    <th>TELEFONO</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                                <tr>
+                                    <td>{{rowIndex + 1}}</td>
+                                    <td>{{data.id}}</td>
+                                    <td>{{data.id}}</td>
+                                    <td>{{data.simbmoneda}}</td>
+                                    <td>{{data.nomlista}}</td>
+                                    <td>{{data.startDate }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="11">No se encontraron registros.</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="loadingbody">
+                                <tr>
+                                    <td colspan="11">Cargando datos. Espere por favor.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="card flex flex-col gap-2 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">4. Proyecto</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Tipo</label>
+                                <p-select [options]="lstTipoProy" [(ngModel)]="idtipoproy" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Estado</label>
+                                <p-select [options]="lstEstProy" [(ngModel)]="idestadoproy" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+
+                            <div class="flex flex-col grow basis-0 gap-1"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Alcance</label>
+                                <textarea rows="3" cols="30" pTextarea [(ngModel)]="alcanceproy" pSize="small"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex -mt-5">
+                    <div class="card flex flex-col gap-3 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">5. Presupuesto</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Moneda</label>
+                                <p-select [options]="lstMoneda" [(ngModel)]="idmoneda" placeholder="Seleccionar..." optionLabel="desmoneda" optionValue="idmoneda" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Presupuesto Estimado</label>
+                                <p-inputNumber mode="decimal" [minFractionDigits]="2" class="p-inputtext-sm" [(ngModel)]="monto" inputStyleClass="text-right"></p-inputNumber>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Estado</label>
+                                <p-select [options]="lstEstPresupuesto" [(ngModel)]="idestadopresu" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Comentario</label>
+                                <textarea rows="3" cols="30" pTextarea pSize="small" [(ngModel)]="compresupuesto"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex flex-col gap-3 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">6. Prioridad</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Prioridad Comercial</label>
+                                <p-select [options]="lstPrioridad" [(ngModel)]="idprioridad" placeholder="Seleccionar prioridad..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Fecha Inicio</label>
+                                <p-datepicker [(ngModel)]="feciniprio" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small"></p-datepicker>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Fecha Cierre</label>
+                                <p-datepicker [(ngModel)]="feccieprio" dateFormat="dd/mm/yy" inputId="yearpicker" [showIcon]="true" size="small"></p-datepicker>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Riesgo por Atraso</label>
+                                <textarea rows="3" cols="30" [(ngModel)]="desprioridad" pTextarea pSize="small"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex -mt-15">
+                    <div class="card flex flex-col gap-3 md:w-1/2">
+                        <p-divider align="left" type="solid">
+                            <b class="text-blue-500 font-bold text-lg">7. Proceso</b>
+                        </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Etapas</label>
+                                <p-select [options]="lstEtapas" [(ngModel)]="idetapaproc" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Tiempos Estimados</label>
+                                <p-select [options]="lstTiempo" [(ngModel)]="idtiempoproc" placeholder="Seleccionar..." optionLabel="valoritem" optionValue="iditem" size="small"></p-select>
+                            </div>
+                            <div class="flex flex-col grow basis-0 gap-1"></div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="flex flex-col grow gap-1">
+                                <label>Stakeholders involucrados</label>
+                                <textarea rows="3" cols="30" [(ngModel)]="desstakeholders" pTextarea pSize="small"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex flex-col gap-3 md:w-1/2">
+                        <p-divider align="left" type="solid"> <b class="text-blue-500 font-bold text-lg">8. Competencia</b>+ </p-divider>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Competidor Evaluado</label>
+                                <input pInputText type="text" [(ngModel)]="descompetidor" pSize="small" class="w-auto" />
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col grow basis-0 gap-1">
+                                <label>Fortalezas/Debilidades del Competidor</label>
+                                <textarea rows="3" cols="30" [(ngModel)]="desfodacompetidor" pTextarea pSize="small"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form> -->
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>
+
+@if(blockedDocument){<app-c-progress-spinner [IS_mensaje]="mensajeSpinner"></app-c-progress-spinner>}
+
+<p-dialog [(visible)]="registroVisible" [modal]="true" [style]="{ width: '40rem' }">
+    <ng-template #header>
+        <div class="inline-flex items-center justify-center gap-2"><i class="pi pi-folder-open" style="margin-right: 10px"></i>{{ headerTitle }}</div>
+    </ng-template>
+    <form [formGroup]="registerFormRegistro" (ngSubmit)="guardarRegistro()">
+        <div class="card flex flex-col gap-2 p-fluid">
+            <span [hidden]="true"> {{ IdRegistro }} </span>
+            <div class="flex flex-wrap gap-2">
+                <div class="flex flex-col grow basis-0 gap-1">
+                    <label>Proveedor</label>
+                    <p-select [options]="lstProveedores" formRegistro="idproveedor" [filter]="true" placeholder="Seleccionar Proveedor" optionLabel="razonsocial" optionValue="idcliente" appendTo="body"></p-select>
+                </div>
+                <div class="flex flex-col grow basis-0 gap-1">
+                    <label>Marca</label>
+                    <p-select [options]="lstMarcas" formRegistro="idmarca" placeholder="Seleccionar Marca" [filter]="true" optionLabel="nommarca" optionValue="idmarca" appendTo="body"></p-select>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                <div class="flex flex-col grow basis-0 gap-1">
+                    <label>N° Registro</label>
+                    <input pInputText type="text" class="w-full" formRegistro="numregoportunidad" pSize="small" />
+                </div>
+                <div class="flex flex-col grow basis-0 gap-1">
+                    <label>Vencimiento</label>
+                    <p-datepicker formRegistro="fechavence" dateFormat="dd/mm/yy" [showIcon]="true" size="small" [maxDate]="maxDateValue" (onSelect)="setFechaMin($event)" appendTo="body"></p-datepicker>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template #footer>
+        <button pButton icon="pi pi-check" label="Guardar" type="submit" class="p-button-primary"></button>
+    </ng-template>
+</p-dialog>

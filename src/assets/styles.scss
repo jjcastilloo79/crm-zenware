@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@use './tailwind.css';
+@use './layout/layout.scss';
+@use 'primeicons/primeicons.css';
+@use './demo/demo.scss';
+
+
+html {
+  font-size: 10px; // prueba 12px o 13px
+
+  .fonthead {
+    background:#0288d1;
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 9px;
+  }
+
+  //estilos del header de p-table
+  .p-datatable thead th {
+    background: linear-gradient(180deg, #ffffff, #e1e4eb);
+    color: #222429;
+    border-bottom: 1px solid #c0d4dd;
+    font-size: 9px;
+  }
+
+  //colorel calendario
+  .fc .fc-button {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+  }
+}

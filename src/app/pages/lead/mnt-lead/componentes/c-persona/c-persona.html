@@ -1,0 +1,36 @@
+<p-table #dt1 [value]="lstContactos" [rowHover]="true" [tableStyle]="{'min-width': '50rem'}" selectionMode="single" size="small">
+    <ng-template pTemplate="caption">
+        <label class="font-bold">Contactos</label>
+        <button pButton icon="pi pi-plus" label="Agregar" class="p-button-outlined ml-3" size="small"></button>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>N°</th>
+            <th>NOMBRE</th>
+            <th>CARGO</th>
+            <th>ROL</th>
+            <th>EMAIL</th>
+            <th>TELEFONO</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+        <tr>
+            <td>{{rowIndex + 1}}</td>
+            <td>{{data.id}}</td>
+            <td>{{data.id}}</td>
+            <td>{{data.simbmoneda}}</td>
+            <td>{{data.nomlista}}</td>
+            <td>{{data.startDate }}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="11">No se encontraron registros.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+        <tr>
+            <td colspan="11">Cargando datos. Espere por favor.</td>
+        </tr>
+    </ng-template>
+</p-table>

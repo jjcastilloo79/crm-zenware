@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="flex justify-content-between col-12 gap-2 mb-3">
+        <!-- <div>
+            <button pButton class="font-semibold p-button-outlined justify-content-center" icon="pi pi-file" label="Nuevo"></button>
+        </div> -->
+        <div class="flex border-round fonthead w-full">
+            <span class="text-base font-bold mt-2 ml-2">AGENDA</span>
+        </div>
+    </div>
+
+    <div class="card">
+            <full-calendar [options]="calendarOptions" [events]="events" #calendar></full-calendar>
+        </div>
+</div>
